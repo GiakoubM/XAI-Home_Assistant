@@ -8,7 +8,7 @@
 ---
 The following steps are for creating the ui from scratch if you want, training the models etc. If you don't: 
 1. Download the files and folders from this repo as it is
-2. Execute steps 1.2, 5 to 9, 10.3 to 10.5, 12, 13.
+2. Execute steps 1.2, 5 through 9, 10.3 through 10.5, 12, 13.
 ### Step 1: 
 1. Create a main folder and add `requirements.txt`, `home_security_xai.py`, `mqtt_csv_simulator.py`, `mqtt_models.py` and `train_models.py` in it (Add to that folder your home assistant config folder as well).
 2. Open a terminal inside that folder and run `pip install -r requirements.txt`.
@@ -67,7 +67,7 @@ Since you are running the project for the first time, you need to generate the L
    `train_full.to_pickle(r"path_where_ths_code_is/trace_xai_train_full.pkl")`, `train_full = pd.read_pickle(r"path_where_ths_code_is/trace_xai_train_full.pkl")`.
 5. After the file `trace_xai_train_full.pkl` is successfully created, comment out the same lines.
 
-### Step 12: Configure and Run the XAI Script (Generates Plots)
+### Step 12: Configure and Run the XAI Script 
 1. Update the `BROKER` variable with the IP address of your MQTT broker.
 2. Update the `CSV_PATH` and `MODEL_DIR` variables with the absolute paths to your data and models.
 3. **CRITICAL:** This file must be in the main folder that contains the ha_config folder to successfully update the plots. 
