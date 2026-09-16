@@ -1,0 +1,738 @@
+views:
+  - type: panel
+    path: ''
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: custom:model-relationship-card
+            title: Model relationships
+            height: 420
+    title: HomePage
+  - type: masonry
+    path: occupation
+    title: Occupation
+    icon: mdi:account-group
+    show_icon_and_title: true
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="">
+                  <ha-icon icon="mdi:account-group"></ha-icon>
+                </font>
+                  Occupancy Estimation Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.occupancy
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_occupancy
+                  - entity: input_boolean.show_outputs1
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs1
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_occupancy_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.temperature
+                max: 40
+                severity:
+                  green: 0
+                  yellow: 25
+                  red: 32
+              - type: entity
+                entity: binary_sensor.pir
+            title: Inputs
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.humidity
+                icon: mdi:water
+              - type: entity
+                entity: sensor.light
+                icon: mdi:brightness-6
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/energy_model
+        color: green
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/vibration-model
+        icon: mdi:vibrate
+        color: yellow
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/activity-recognition-model
+        color: deep-purple
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/anomaly-detection-model
+        color: deep-orange
+        icon: mdi:sine-wave
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/threat-model
+        color: red
+  - type: masonry
+    path: energy_model
+    icon: mdi:lightning-bolt-circle
+    subview: true
+    show_icon_and_title: true
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/occupation
+        color: white
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/vibration-model
+        icon: mdi:vibrate
+        color: yellow
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/activity-recognition-model
+        color: deep-purple
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/anomaly-detection-model
+        color: deep-orange
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/threat-model
+        color: red
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                
+                <font color="#4CAF50">
+                  <ha-icon icon="mdi:lightning-bolt-circle"></ha-icon>
+                </font>
+                  Energy Consumption Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.estimatedenergy
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+                max: 2
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_energy
+                  - entity: input_boolean.show_outputs2
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs2
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_energy_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.occupancy
+            title: Inputs
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.humidity
+              - type: gauge
+                entity: sensor.temperature
+                max: 40
+                severity:
+                  green: 0
+                  yellow: 28
+                  red: 32
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.light
+              - type: entity
+                entity: sensor.co2
+    title: Energy Model
+  - type: masonry
+    path: vibration-model
+    title: Vibration Model
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="yellow">
+                  <ha-icon icon="mdi:vibrate"></ha-icon>
+                </font>
+                  Vibration Analysis Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.event_type
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_vibration
+                  - entity: input_boolean.show_outputs3
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs3
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_vibration_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.vibration_rms
+              - type: entity
+                entity: sensor.peak_acceleration
+            title: Inputs
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.spectral_entropy
+              - type: entity
+                entity: sensor.vibration_duration
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.dominant_frequency
+              - type: gauge
+                entity: sensor.spectral_energy
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.accel_x
+                max: 1.2
+              - type: gauge
+                entity: sensor.accel_y
+                max: 1.2
+              - type: gauge
+                entity: sensor.accel_z
+                max: 1.2
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: entity
+                    entity: sensor.occupancy
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/occupation
+        color: white
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/energy_model
+        color: green
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/activity-recognition-model
+        color: deep-purple
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/anomaly-detection-model
+        color: deep-orange
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/threat-model
+        color: red
+    icon: mdi:vibrate
+    show_icon_and_title: true
+    sections:
+      - type: grid
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="yellow">
+                  <ha-icon icon="mdi:vibrate"></ha-icon>
+                </font>
+                  Vibration Analysis Model
+              </h1>
+              </center>
+          - type: heading
+            icon: mdi:arrow-down-bold-circle
+            heading: Output
+            heading_style: title
+          - type: entity
+            entity: sensor.eventtype_sensor
+            grid_options:
+              columns: 12
+              rows: 2
+            state_color: false
+            name: Event Type
+          - type: horizontal-stack
+            cards:
+              - type: vertical-stack
+                cards:
+                  - type: gauge
+                    entity: sensor.occupancy
+              - type: vertical-stack
+                cards:
+                  - type: entities
+                    entities:
+                      - entity: sensor.power_draw
+                      - entity: sensor.sound_level
+            grid_options:
+              rows: auto
+              columns: 12
+          - type: vertical-stack
+            cards:
+              - type: heading
+                icon: mdi:arrow-down-bold
+                heading: Inputs
+                heading_style: subtitle
+              - type: gauge
+                entity: sensor.occupancy
+                severity:
+                  green: 0
+                  yellow: 12
+                  red: 18
+                max: 20
+              - type: entity
+                entity: sensor.door_sensor
+            grid_options:
+              columns: 6
+              rows: auto
+  - title: Activity Recognition Model
+    path: activity-recognition-model
+    icon: mdi:face-recognition
+    show_icon_and_title: true
+    subview: true
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/occupation
+        color: white
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/energy_model
+        color: green
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/vibration-model
+        icon: mdi:vibrate
+        color: yellow
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/anomaly-detection-model
+        color: deep-orange
+        icon: mdi:sine-wave
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/threat-model
+        color: red
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="#7847C9">
+                  <ha-icon icon="mdi:face-recognition"></ha-icon>
+                </font>
+                  Activity Recognition Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.activity
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_activity
+                  - entity: input_boolean.show_outputs4
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs4
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_activity_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.estimatedenergy
+                max: 2
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+              - type: entity
+                entity: sensor.occupancy
+                icon: mdi:account
+            title: Inputs
+          - type: entity
+            entity: sensor.event_type
+            icon: mdi:motion-sensor
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.outdoor_temperature
+                severity:
+                  green: 0
+                  yellow: 26
+                  red: 35
+                max: 40
+              - type: entity
+                entity: sensor.light
+                icon: mdi:lightbulb-on
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: binary_sensor.pir
+              - type: entities
+                entities:
+                  - entity: sensor.door_sensor
+                    icon: mdi:door
+                  - entity: sensor.hour_of_day
+                    icon: mdi:clock
+  - type: masonry
+    path: anomaly-detection-model
+    title: Anomaly Detection Model
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="#FD8333">
+                  <ha-icon icon="mdi:sine-wave"></ha-icon>
+                </font>
+                  Anomaly Detection Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.anomaly
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_anomaly
+                  - entity: input_boolean.show_outputs5
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs5
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_anomaly_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.event_type
+            title: Inputs
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.cumulative_energy
+                max: 2
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+              - type: gauge
+                entity: sensor.estimatedenergy
+                max: 2
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.temperature
+                severity:
+                  green: 0
+                  yellow: 26
+                  red: 35
+                max: 40
+              - type: entity
+                entity: sensor.hour_of_day
+                icon: mdi:clock
+              - type: entity
+                entity: sensor.humidity
+                icon: mdi:volume-high
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: binary_sensor.pir
+              - type: entity
+                entity: sensor.door_sensor
+    icon: mdi:sine-wave
+    show_icon_and_title: true
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/occupation
+        color: white
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/energy_model
+        color: green
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/vibration-model
+        color: yellow
+        icon: mdi:vibrate
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/activity-recognition-model
+        color: deep-purple
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/threat-model
+        color: red
+  - type: masonry
+    path: threat-model
+    title: Threat model
+    icon: mdi:exclamation-thick
+    subview: true
+    cards:
+      - type: vertical-stack
+        cards:
+          - type: markdown
+            text_only: true
+            content: |-
+              <center>
+              <h1>
+                <font color="red">
+                  <ha-icon icon="mdi:exclamation-thick"></ha-icon>
+                </font>
+                  Threat Model
+              </h1>
+              </center>
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.threat
+            title: Output
+          - type: vertical-stack
+            cards:
+              - type: entities
+                entities:
+                  - entity: button.xai_threat
+                  - entity: input_boolean.show_outputs6
+                    name: Show XAI Chart
+                    icon: mdi:eye
+              - type: conditional
+                conditions:
+                  - entity: input_boolean.show_outputs6
+                    state: 'on'
+                card:
+                  type: picture-entity
+                  entity: camera.xai_threat_plot
+                  show_name: false
+                  show_state: false
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: sensor.anomaly
+                icon: mdi:bell-ring
+                name: Anomaly Status
+              - type: entity
+                entity: sensor.activity
+            title: Inputs
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.estimatedenergy
+                max: 2
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+              - type: gauge
+                entity: sensor.cumulative_energy
+                max: 2
+                severity:
+                  green: 0
+                  yellow: 1
+                  red: 1.9
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.smoke_level
+                severity:
+                  green: 0
+                  yellow: 26
+                  red: 35
+                max: 40
+              - type: entity
+                entity: sensor.hour_of_day
+                icon: mdi:clock
+              - type: entity
+                entity: sensor.co2
+                icon: mdi:molecule-co2
+          - type: horizontal-stack
+            cards:
+              - type: entity
+                entity: binary_sensor.pir
+              - type: entity
+                entity: sensor.door_sensor
+                icon: mdi:door
+          - type: horizontal-stack
+            cards:
+              - type: gauge
+                entity: sensor.temperature
+                severity:
+                  green: 0
+                  yellow: 26
+                  red: 35
+                max: 40
+              - type: gauge
+                entity: sensor.outdoor_temperature
+                severity:
+                  green: 0
+                  yellow: 26
+                  red: 35
+                max: 40
+    show_icon_and_title: true
+    badges:
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai
+        icon: mdi:home
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/occupation
+        color: white
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/energy_model
+        color: green
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/vibration-model
+        color: yellow
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/activity-recognition-model
+        color: deep-purple
+      - type: shortcut
+        tap_action:
+          action: navigate
+          navigation_path: /ha-xai/anomaly-detection-model
+        color: deep-orange
