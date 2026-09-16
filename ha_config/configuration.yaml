@@ -1,0 +1,455 @@
+# Loads default set of integrations. Do not remove.
+default_config:
+frontend:
+  themes: !include_dir_merge_named themes
+
+automation: !include automations.yaml
+script: !include scripts.yaml
+scene: !include scenes.yaml
+
+sensor:
+  - platform: template
+    sensors:
+      trace_x:
+        friendly_name: "X"
+        unit_of_measurement: "units"
+        value_template: "{{ states('input_number.x') }}"
+
+      trace_y:
+        friendly_name: "Y"
+        unit_of_measurement: "units"
+        value_template: "{{ states('input_number.y') }}"
+
+      trace_z:
+        friendly_name: "Z"
+        unit_of_measurement: "units"
+        value_template: "{{ states('input_number.z') }}"
+        
+      temperature:
+        friendly_name: "Room Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.temperature_sensor') | float(19) }}"
+
+      co2:
+        friendly_name: "CO2 Level"
+        unit_of_measurement: "ppm"
+        value_template: "{{ states('sensor.co2_sensor') | float(412.75) }}"
+
+      humidity:
+        friendly_name: "Humidity"
+        unit_of_measurement: "%"
+        value_template: "{{ states('sensor.humidity_sensor') | float(0.00383) }}"
+
+      light:
+        friendly_name: "Light Level"
+        unit_of_measurement: "lux"
+        value_template: "{{ states('sensor.light_sensor') | float(119.52001) }}"
+
+      energy:
+        friendly_name: "Energy Consumption"
+        unit_of_measurement: "kWh"
+        value_template: "{{ states('sensor.energy_sensor') | float(110.020) }}"
+
+      temperature_setpoint:
+        friendly_name: "Temperature Setpoint"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('input_number.temperature_setpoint') | float(20) }}"
+
+      outdoor_temperature:
+        friendly_name: "Outdoor Temperature"
+        unit_of_measurement: "°C"
+        value_template: "{{ states('sensor.outdoor_temperature_sensor') | float(18) }}"
+
+      cumulative_energy:
+        friendly_name: "Cumulative Energy"
+        unit_of_measurement: "kWh"
+        value_template: "{{ states('sensor.cumulative_energy_sensor') | float(110.020) }}"
+
+      
+        
+      occupancy:
+        friendly_name: "Occupancy State"
+        value_template: >
+          {% if states('sensor.occupancy_sensor') == '1' %}
+            Present
+          {% elif states('sensor.occupancy_sensor') == '0' %}
+            Empty
+          {% else %}
+            Unknown
+          {% endif %}
+        
+      estimatedenergy:
+        friendly_name: "Estimated Energy Consumption"
+        unit_of_measurement: "kWh"
+        value_template: "{{ states('sensor.estimated_energy_sensor') | float(112.00) }}"
+        
+      rpm:
+        friendly_name: "Rotational speed (RPM)"
+        unit_of_measurement: "rpm"
+        value_template: "{{ states('sensor.rpm_sensor') | float(0) }}"        
+      
+           
+        
+      sound_level:
+        friendly_name: "Sound Level"
+        unit_of_measurement: "dB"
+        value_template: "{{ states('sensor.sound_sensor') | float(0) }}"
+
+      door_sensor:
+        friendly_name: "Door Sensor"
+        value_template: "{{ states('binary_sensor.door_sensor') }}"
+        
+      is_weekend:
+        friendly_name: "Is Weekend"
+        value_template: >
+          {% set d = now().weekday() %}
+          {{ d == 5 or d == 6 }}
+
+      hour_of_day:
+        friendly_name: "Hour of Day"
+        unit_of_measurement: "h"
+        value_template: "{{ now().hour }}"
+
+      current_energy:
+        friendly_name: "Current Energy"
+        unit_of_measurement: "W"
+        value_template: "{{ states('sensor.energy_power') | float(0) }}"
+
+      activity:
+        friendly_name: "Predicted Activity"
+        value_template: "{{ states('sensor.activity_sensor') }}"
+
+      anomaly:
+        friendly_name: "Anomaly Label"
+        value_template: >
+          {% if states('sensor.anomaly_sensor') == '1' %}
+            Anomaly
+          {% else %}
+            Normal
+          {% endif %}
+
+      threat:
+        friendly_name: "Threat Type"
+        value_template: "{{ states('sensor.threat_sensor') }}"
+
+      event_type:
+        friendly_name: "Event Type"
+        value_template: "{{ states('sensor.eventtype_sensor') }}"
+
+      motion_intensity:
+        friendly_name: "Motion Intensity"
+        unit_of_measurement: "level"
+        value_template: "{{ states('sensor.motion_intensity_sensor') | float(0) }}"
+        
+      gyro_x:
+        friendly_name: "Gyroscope X"
+        unit_of_measurement: "°/s"
+        value_template: "{{ states('sensor.gyro_x_sensor') | float(0) }}"
+
+      gyro_y:
+        friendly_name: "Gyroscope Y"
+        unit_of_measurement: "°/s"
+        value_template: "{{ states('sensor.gyro_y_sensor') | float(0) }}"
+
+      gyro_z:
+        friendly_name: "Gyroscope Z"
+        unit_of_measurement: "°/s"
+        value_template: "{{ states('sensor.gyro_z_sensor') | float(0) }}"
+
+      accel_x:
+        friendly_name: "Acceleration X"
+        unit_of_measurement: "m/s²"
+        value_template: "{{ states('sensor.accelerometer_x_sensor') | float(0) }}"
+
+      accel_y:
+        friendly_name: "Acceleration Y"
+        unit_of_measurement: "m/s²"
+        value_template: "{{ states('sensor.accelerometer_y_sensor') | float(0) }}"
+
+      accel_z:
+        friendly_name: "Acceleration Z"
+        unit_of_measurement: "m/s²"
+        value_template: "{{ states('sensor.accelerometer_z_sensor') | float(0) }}"
+
+      power_draw:
+        friendly_name: "Power Draw"
+        unit_of_measurement: "W"
+        value_template: "{{ states('sensor.power_draw_sensor') | float(0) }}"
+
+      plug_1_energy:
+        friendly_name: "Plug 1 Energy"
+        unit_of_measurement: "kWh"
+        value_template: "{{ states('sensor.plug_1_energy_sensor') | float(0) }}"
+
+      plug_2_energy:
+        friendly_name: "Plug 2 Energy"
+        unit_of_measurement: "kWh"
+        value_template: "{{ states('sensor.plug_2_energy_sensor') | float(0) }}"
+
+      co2_slope:
+        friendly_name: "CO2 Slope"
+        unit_of_measurement: "ppm/min"
+        value_template: "{{ states('sensor.co2_slope_sensor') | float(0) }}"
+
+      smoke_level:
+        friendly_name: "Smoke Level"
+        unit_of_measurement: "ppm"
+        value_template: "{{ states('sensor.smoke_level_sensor') | float(0) }}"
+
+      vibration_rms:
+        friendly_name: "Vibration RMS"
+        value_template: "{{ states('sensor.vibration_rms_sensor') | float(0) }}"
+
+      peak_acceleration:
+        friendly_name: "Peak Acceleration"
+        value_template: "{{ states('sensor.peak_acceleration_sensor') | float(0) }}"
+
+      dominant_frequency:
+        friendly_name: "Dominant Frequency"
+        unit_of_measurement: "Hz"
+        value_template: "{{ states('sensor.dominant_frequency_sensor') | float(0) }}"
+
+      spectral_energy:
+        friendly_name: "Spectral Energy"
+        value_template: "{{ states('sensor.spectral_energy_sensor') | float(0) }}"
+
+      spectral_entropy:
+        friendly_name: "Spectral Entropy"
+        value_template: "{{ states('sensor.spectral_entropy_sensor') | float(0) }}"
+
+      vibration_duration:
+        friendly_name: "Vibration Duration"
+        unit_of_measurement: "s"
+        value_template: "{{ states('sensor.vibration_duration_sensor') | float(0) }}"
+
+      actual_consumption:
+        friendly_name: "Actual Consumption"
+        unit_of_measurement: "W"
+        value_template: "{{ states('sensor.actual_consumption_sensor') | float(0) }}"
+
+mqtt:
+  sensor:
+    - name: "temperature_sensor"
+      state_topic: "home/sensors/temperature"
+      unit_of_measurement: "°C"
+
+    - name: "co2_sensor"
+      state_topic: "home/sensors/co2"
+      unit_of_measurement: "ppm"
+
+    - name: "humidity_sensor"
+      state_topic: "home/sensors/humidity"
+      unit_of_measurement: "%"
+
+    - name: "light_sensor"
+      state_topic: "home/sensors/light"
+      unit_of_measurement: "lux"
+    
+    - name: "energy_power"
+      state_topic: "home/sensors/energy_power"
+      unit_of_measurement: "W"
+
+    - name: "power_draw_sensor"
+      state_topic: "home/sensors/power_draw"
+      unit_of_measurement: "W"
+
+    - name: "energy_sensor"
+      state_topic: "home/sensors/energy"
+      unit_of_measurement: "kWh"
+    
+    - name: "sound_sensor"
+      state_topic: "home/sensors/sound"
+      unit_of_measurement: "dB"
+
+    - name: "outdoor_temperature_sensor"
+      state_topic: "home/sensors/outdoor_temperature"
+      unit_of_measurement: "°C"
+
+    - name: "cumulative_energy_sensor"
+      state_topic: "home/sensors/cumulative_energy"
+      unit_of_measurement: "kWh"
+
+    - name: "accelerometer_x_sensor"
+      state_topic: "home/sensors/accel_x"
+      unit_of_measurement: "m/s²"
+
+    - name: "accelerometer_y_sensor"
+      state_topic: "home/sensors/accel_y"
+      unit_of_measurement: "m/s²"
+
+    - name: "accelerometer_z_sensor"
+      state_topic: "home/sensors/accel_z"
+      unit_of_measurement: "m/s²"
+    
+    - name: "gyro_x_sensor"
+      state_topic: "home/sensors/gyro_x"
+      unit_of_measurement: "°/s"
+    
+    - name: "gyro_y_sensor"
+      state_topic: "home/sensors/gyro_y"
+      unit_of_measurement: "°/s"
+
+    - name: "gyro_z_sensor"
+      state_topic: "home/sensors/gyro_z"
+      unit_of_measurement: "°/s"
+
+    - name: "plug_1_energy_sensor"
+      state_topic: "home/sensors/plug_1_energy"
+      unit_of_measurement: "kWh"
+
+    - name: "plug_2_energy_sensor"
+      state_topic: "home/sensors/plug_2_energy"
+      unit_of_measurement: "kWh"
+
+    - name: "occupancy_sensor"
+      state_topic: "home/predictions/occupant_presence"
+
+    - name: "estimated_energy_sensor"
+      state_topic: "home/predictions/predicted_consumption"
+      unit_of_measurement: "kWh"
+
+    - name: "rpm_sensor"
+      state_topic: "home/sensors/rpm"
+      unit_of_measurement: "rpm"
+
+    - name: "eventtype_sensor"
+      state_topic: "home/predictions/event_type"
+ 
+    - name: "activity_sensor"
+      state_topic: "home/predictions/predicted_activity"
+
+    - name: "anomaly_sensor"
+      state_topic: "home/predictions/anomaly"
+
+    - name: "threat_sensor"
+      state_topic: "home/predictions/threat_type"
+
+    - name: "XAI Temperature Importance"
+      state_topic: "home/explanations/temperature"
+      unit_of_measurement: "score"
+
+    - name: "XAI CO2 Importance"
+      state_topic: "home/explanations/co2"
+      unit_of_measurement: "score"
+
+    - name: "XAI Humidity Importance"
+      state_topic: "home/explanations/humidity"
+      unit_of_measurement: "score"
+
+    - name: "XAI Light Importance"
+      state_topic: "home/explanations/light"
+      unit_of_measurement: "score"
+
+    - name: "smoke_level_sensor"
+      state_topic: "home/sensors/smoke_level"
+
+    - name: "vibration_rms_sensor"
+      state_topic: "home/sensors/vibration_rms"
+
+    - name: "peak_acceleration_sensor"
+      state_topic: "home/sensors/peak_acceleration"
+
+    - name: "dominant_frequency_sensor"
+      state_topic: "home/sensors/dominant_frequency"
+
+    - name: "spectral_energy_sensor"
+      state_topic: "home/sensors/spectral_energy"
+
+    - name: "spectral_entropy_sensor"
+      state_topic: "home/sensors/spectral_entropy"
+
+    - name: "vibration_duration_sensor"
+      state_topic: "home/sensors/vibration_duration"
+
+    - name: "actual_consumption_sensor"
+      state_topic: "home/sensors/actual_consumption"
+
+    - name: "motion_intensity_sensor"
+      state_topic: "home/sensors/motion_intensity"
+
+  binary_sensor:
+    - name: "door_sensor"
+      state_topic: "home/sensors/door_state"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: "door" 
+    
+    - name: "PIR"
+      state_topic: "home/sensors/pir"
+      payload_on: "1"
+      payload_off: "0"
+      device_class: "motion"
+  
+  button:
+    - name: "XAI Occupancy"
+      unique_id: "run_xai_occupancy"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Occupancy Model"
+
+    - name: "XAI Vibration"
+      unique_id: "run_xai_vibration"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Vibration Model"
+
+    - name: "XAI Energy"
+      unique_id: "run_xai_energy"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Energy Model"
+
+    - name: "XAI Activity"
+      unique_id: "run_xai_activity"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Activity Recognition"
+
+    - name: "XAI Anomaly"
+      unique_id: "run_xai_anomaly"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Anomaly Detection"
+
+    - name: "XAI Threat"
+      unique_id: "run_xai_threat"
+      command_topic: "home/commands/run_xai"
+      payload_press: "Threat Assessment"
+
+input_boolean:
+  show_inputs:
+    name: "Show Inputs - Occupancy"
+    icon: mdi:keyboard-outline
+  show_inputs1:
+    name: "Show Inputs - Energy"
+    icon: mdi:keyboard-outline
+  show_inputs2:
+    name: "Show Inputs - Vibration"
+    icon: mdi:keyboard-outline
+  show_inputs3:
+    name: "Show Inputs - Activity Recognition"
+    icon: mdi:keyboard-outline
+  show_inputs4:
+    name: "Show Inputs - Anomaly Detection"
+    icon: mdi:keyboard-outline
+  show_inputs5:
+    name: "Show Inputs - Threat"
+    icon: mdi:keyboard-outline
+  show_chart:
+    name: "Show Chart"
+    icon: mdi:chart-bar
+  show_outputs1:
+    name: "Show Outputs - Occupancy"
+    icon: mdi:eye-outline
+  show_outputs2:
+    name: "Show Outputs - Energy"
+    icon: mdi:eye-outline
+  show_outputs3:
+    name: "Show Outputs - Vibration"
+    icon: mdi:eye-outline
+  show_outputs4:
+    name: "Show Outputs - Activity Recognition"
+    icon: mdi:eye-outline
+  show_outputs5:
+    name: "Show Outputs - Anomaly Detection"
+    icon: mdi:eye-outline
+  show_outputs6:
+    name: "Show Outputs - Threat"
+    icon: mdi:eye-outline
+
+model_relationships:

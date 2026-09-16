@@ -1,0 +1,182 @@
+{
+  "nodes": [
+    {
+      "id": "n2",
+      "label": "Vibration Model",
+      "navigate": "vibration-model",
+      "x": 10.909101178103015,
+      "y": 153.66834717990264,
+      "inputs": [
+        "sensor.occupancy",
+        "sensor.accel_x",
+        "sensor.accel_y",
+        "sensor.accel_z",
+        "sensor.vibration_rms",
+        "sensor.peak_acceleration",
+        "sensor.spectral_energy",
+        "sensor.spectral_entropy",
+        "sensor.vibration_duration",
+        "sensor.dominant_frequency"
+      ],
+      "outputs": [
+        "sensor.event_type"
+      ],
+      "w": 100,
+      "h": 20
+    },
+    {
+      "id": "n6",
+      "label": "Occupancy Model",
+      "navigate": "occupation",
+      "inputs": [
+        "sensor.temperature",
+        "sensor.humidity",
+        "sensor.light",
+        "binary_sensor.pir"
+      ],
+      "outputs": [
+        "sensor.occupancy"
+      ],
+      "x": 2.0843554789822747,
+      "y": 45.338803190605944,
+      "w": 85.7192611694336,
+      "h": 20
+    },
+    {
+      "id": "n7",
+      "label": "Energy Model",
+      "navigate": "energy_model",
+      "inputs": [
+        "sensor.occupancy",
+        "sensor.temperature",
+        "sensor.humidity",
+        "sensor.light",
+        "sensor.co2"
+      ],
+      "outputs": [
+        "sensor.estimatedenergy"
+      ],
+      "x": 187.66496115847184,
+      "y": 47.69489226630952,
+      "w": 82.996826171875,
+      "h": 20
+    },
+    {
+      "id": "n8",
+      "label": "Activity Recognition",
+      "navigate": "activity-recognition-model",
+      "inputs": [
+        "sensor.hour_of_day",
+        "sensor.estimatedenergy",
+        "sensor.occupancy",
+        "sensor.event_type",
+        "sensor.outdoor_temperature",
+        "binary_sensor.pir",
+        "sensor.door_sensor",
+        "sensor.light"
+      ],
+      "outputs": [
+        "sensor.activity"
+      ],
+      "x": 403.5274110165551,
+      "y": 41.97799879459629,
+      "h": 20,
+      "w": 101.8485107421875
+    },
+    {
+      "id": "n9",
+      "label": "Anomaly Detection",
+      "navigate": "anomaly-detection-model",
+      "inputs": [
+        "sensor.motion_intensity",
+        "sensor.cumulative_energy",
+        "sensor.temperature",
+        "sensor.hour_of_day",
+        "sensor.event_type",
+        "sensor.estimatedenergy",
+        "sensor.humidity",
+        "binary_sensor.pir",
+        "sensor.door_sensor"
+      ],
+      "outputs": [
+        "sensor.anomaly"
+      ],
+      "x": 398.353299367582,
+      "y": 152.80931889462636,
+      "w": 130.8580322265625,
+      "h": 20
+    },
+    {
+      "id": "n10",
+      "label": "Threat Assessment",
+      "navigate": "threat-model",
+      "inputs": [
+        "sensor.anomaly",
+        "sensor.activity",
+        "sensor.door_sensor",
+        "sensor.temperature",
+        "sensor.hour_of_day",
+        "sensor.cumulative_energy",
+        "sensor.estimatedenergy",
+        "sensor.smoke_level",
+        "sensor.co2",
+        "binary_sensor.pir",
+        "sensor.outdoor_temperature"
+      ],
+      "outputs": [
+        "sensor.threat"
+      ],
+      "x": 545.4899230828778,
+      "y": 95.97519506788603,
+      "w": 106.99688720703125,
+      "h": 20
+    }
+  ],
+  "edges": [
+    {
+      "id": "e3",
+      "from": "n6",
+      "to": "n7"
+    },
+    {
+      "id": "e4",
+      "from": "n6",
+      "to": "n2"
+    },
+    {
+      "id": "e5",
+      "from": "n7",
+      "to": "n8"
+    },
+    {
+      "id": "e6",
+      "from": "n2",
+      "to": "n8"
+    },
+    {
+      "id": "e7",
+      "from": "n2",
+      "to": "n9"
+    },
+    {
+      "id": "e9",
+      "from": "n8",
+      "to": "n10"
+    },
+    {
+      "id": "e10",
+      "from": "n9",
+      "to": "n10"
+    },
+    {
+      "id": "e11",
+      "from": "n7",
+      "to": "n8"
+    },
+    {
+      "id": "e13",
+      "from": "n7",
+      "to": "n9"
+    }
+  ]
+}

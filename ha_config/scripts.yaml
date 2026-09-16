@@ -1,0 +1,9 @@
+xai_test:
+  sequence:
+  - action: notify.persistent_notification
+    metadata: {}
+    data:
+      message: The button is pressed!
+      title: Test Button
+  alias: xai_test
+  description: ''

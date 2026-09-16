@@ -1,0 +1,15 @@
+- id: '1783597233911'
+  alias: Xai Button
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - input_button.run_xai_trigger
+  conditions: []
+  actions:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      topic: home/commands/run_xai
+      payload: RUN
+  mode: single

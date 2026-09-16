@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - ./ha_config:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    ports:
+      - "8123:8123"
+    networks:
+      - iot-net
+
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      # Συνδέει το αρχείο που μόλις φτιάξαμε απευθείας μέσα στο container
+      - ./mosquitto.conf:/mosquitto/config/mosquitto.conf
+    networks:
+      - iot-net
+
+networks:
+  iot-net:
+    driver: bridge
