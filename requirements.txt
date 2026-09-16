@@ -1,0 +1,8 @@
+scikit-learn==1.8.0
+tensorflow==2.21.0
+paho-mqtt==2.1.0
+numpy==2.4.6
+joblib==1.5.3
+pandas==3.0.3
+lime
+matplotlib
