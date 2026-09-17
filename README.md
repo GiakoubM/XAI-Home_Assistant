@@ -1,5 +1,13 @@
 # Home Assistant UI & TRACE-XAI 
 
+## Project Overview & Architecture
+
+This project implements a transparent, AI-driven Smart Home Security system by integrating Explainable AI (XAI) directly into Home Assistant. The backend consists of a Python pipeline that processes data across six specialized Machine Learning models (Occupancy, Vibration, Energy, Activity, Anomaly, and Threat). 
+
+To ensure these automated decisions are understandable, the system utilizes **LIME** to extract local feature importance scores for every prediction. These raw metrics are dynamically processed by a **LLM** (via the Groq API) to generate simple explanations. Finally, all XAI insights,including visual LIME charts and the LLM-generated text,are published via **MQTT** to a custom Home Assistant dashboard, providing the user with real-time, context-aware security monitoring.
+
+![Home Assistant XAI Dashboard](images/HA_prot.jpg)
+
 ## Requirements
 * Home Assistant
 * MQTT Broker (e.g., Mosquitto)
@@ -8,7 +16,7 @@
 ---
 The following steps are for creating the ui from scratch if you want, training the models etc. If you don't: 
 1. Download the files and folders from this repo as it is
-2. Execute steps 1.2, 5 through 9, 10.3 through 10.5, 12, 13.
+2. Execute steps 1.2, 5 through 9, 10.3 through 10.5, 12, 13 and 14.
 ### Step 1: 
 1. Create a main folder and add `requirements.txt`, `home_security_xai.py`, `mqtt_csv_simulator.py`, `mqtt_models.py` and `train_models.py` in it (Add to that folder your home assistant config folder as well).
 2. Open a terminal inside that folder and run `pip install -r requirements.txt`.
@@ -67,7 +75,18 @@ Since you are running the project for the first time, you need to generate the L
    `train_full.to_pickle(r"path_where_ths_code_is/trace_xai_train_full.pkl")`, `train_full = pd.read_pickle(r"path_where_ths_code_is/trace_xai_train_full.pkl")`.
 5. After the file `trace_xai_train_full.pkl` is successfully created, comment out the same lines.
 
-### Step 12: Configure and Run the XAI Script 
+## Step 12: LLM Explanations Setup 
+
+This project uses the Groq API (running the `groq/compound-mini` model) to generate natural language explanations for the AI models' decisions. To enable this feature, you need to provide a Groq API Key.
+
+**Note:** If no API key is provided, the script will not crash. 
+
+   ### How to set up your API Key
+   1. **Get a Free Key**: Go to [console.groq.com](https://console.groq.com/), create a free account, and generate a new API Key.
+   2. You must update variable named `GROQ_API_KEY` in home_security_xai.py file with your API key.
+
+
+### Step 13: Configure and Run the XAI Script 
 1. Update the `BROKER` variable with the IP address of your MQTT broker.
 2. Update the `CSV_PATH` and `MODEL_DIR` variables with the absolute paths to your data and models.
 3. **CRITICAL:** This file must be in the main folder that contains the ha_config folder to successfully update the plots. 
@@ -75,7 +94,7 @@ Since you are running the project for the first time, you need to generate the L
 5. Open a new terminal in your main folder and run `python home_security_xai.py`. 
 
 
-### Step 13: Configure Local File Integration
+### Step 14: Configure Local File Integration
 Now that the XAI plots exist in your `www` folder, you can set them up in Home Assistant:
 1. Go to **Settings > Devices & Services**.
 2. Click **Add Integration** and search for **Local File**.
@@ -87,3 +106,4 @@ Now that the XAI plots exist in your `www` folder, you can set them up in Home A
    * `/config/www/xai_plots/M4_Activity_explanations.svg`
    * `/config/www/xai_plots/M5_Anomaly_explanations.svg`
    * `/config/www/xai_plots/M6_Threat_explanations.svg`
+

@@ -367,6 +367,36 @@ mqtt:
     - name: "motion_intensity_sensor"
       state_topic: "home/sensors/motion_intensity"
 
+    - name: "Occupancy LLM Answer"
+      state_topic: "home/xai/M1_Occupancy/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M1_Occupancy/llm_answer"
+
+    - name: "Vibration LLM Answer"
+      state_topic: "home/xai/M2_Vibration/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M2_Vibration/llm_answer"
+
+    - name: "Energy LLM Answer"
+      state_topic: "home/xai/M3_Energy/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M3_Energy/llm_answer"
+
+    - name: "Activity LLM Answer"
+      state_topic: "home/xai/M4_Activity/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M4_Activity/llm_answer"
+
+    - name: "Anomaly LLM Answer"
+      state_topic: "home/xai/M5_Anomaly/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M5_Anomaly/llm_answer"
+
+    - name: "Threat LLM Answer"
+      state_topic: "home/xai/M6_Threat/llm_answer"
+      value_template: "Updated"
+      json_attributes_topic: "home/xai/M6_Threat/llm_answer"
+
   binary_sensor:
     - name: "door_sensor"
       state_topic: "home/sensors/door_state"

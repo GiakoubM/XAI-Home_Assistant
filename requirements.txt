@@ -6,3 +6,4 @@ joblib==1.5.3
 pandas==3.0.3
 lime
 matplotlib
+openai

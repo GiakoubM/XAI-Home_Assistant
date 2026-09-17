@@ -4,8 +4,8 @@ import time
 from mqtt_models import Model, run_pipeline
 
 BROKER_ADDRESS = "your_ip"
-CSV_FILENAME = "csv_file_name"
-ROW_INTERVAL_SECONDS = 5
+CSV_FILENAME = "filename.csv"
+ROW_INTERVAL_SECONDS = 7
 
 TOPIC_MAPPING = {
     "time_of_day": "home/sensors/time_of_day",

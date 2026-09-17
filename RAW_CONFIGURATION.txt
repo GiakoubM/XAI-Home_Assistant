@@ -50,6 +50,10 @@ views:
                   entity: camera.xai_occupancy_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Occupancy Explanation
+              {{ state_attr('sensor.occupancy_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: gauge
@@ -182,6 +186,10 @@ views:
                   entity: camera.xai_energy_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Energy Explanation
+              {{ state_attr('sensor.energy_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: entity
@@ -245,6 +253,10 @@ views:
                   entity: camera.xai_vibration_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Vibration Explanation
+              {{ state_attr('sensor.vibration_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: entity
@@ -446,6 +458,10 @@ views:
                   entity: camera.xai_activity_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Activity Explanation
+              {{ state_attr('sensor.activity_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: gauge
@@ -524,6 +540,10 @@ views:
                   entity: camera.xai_anomaly_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Anomaly Explanation
+              {{ state_attr('sensor.anomaly_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: entity
@@ -641,6 +661,10 @@ views:
                   entity: camera.xai_threat_plot
                   show_name: false
                   show_state: false
+          - type: markdown
+            content: |-
+              ### Threat Assessment Explanation
+              {{ state_attr('sensor.threat_llm_answer', 'explanation') }}
           - type: horizontal-stack
             cards:
               - type: entity

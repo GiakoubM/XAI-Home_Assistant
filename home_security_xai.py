@@ -9,21 +9,67 @@ from lime.lime_tabular import LimeTabularExplainer
 import sys
 import warnings
 import json
+import matplotlib
+matplotlib.use('Agg') 
 import matplotlib.pyplot as plt
 import paho.mqtt.client as mqtt
 import paho.mqtt.publish as publish
+from openai import OpenAI
 os.environ["PYTHONWARNINGS"] = "ignore"
 warnings.filterwarnings("ignore")
 
 
-BROKER="your ip"
+
+# API Key
+GROQ_API_KEY = "your_API_Key" 
+
+llm_client = None
+if GROQ_API_KEY:
+    llm_client = OpenAI(
+        base_url="https://api.groq.com/openai/v1",
+        api_key=GROQ_API_KEY
+    )
+
+def generate_llm_answer(model_name, prediction, scores_dict):
+    if not llm_client:
+        return "LLM explanations are disabled. No API Key provided."
+        
+    prompt = f"""
+    You are the AI assistant of a smart home security system. 
+    The module '{model_name}' just ran and its final output/prediction is: '{prediction}'.
+
+    The features that led to this output are:
+    {scores_dict}
+
+    Your task is to interpret this outcome and explain it to the homeowner in 1-2 short, natural sentences. 
+    - Understand what the output '{prediction}' means in the context of '{model_name}'.
+    - Explain *why* this specific outcome happened by naturally referencing the provided features.
+    DO NOT mention any numbers, math, decimals, or weights. Speak simply and contextually.
+    """
+    
+    try:
+        response = llm_client.chat.completions.create(
+            model="groq/compound-mini",
+            messages=[{"role": "user", "content": prompt}],
+            temperature=0.3,
+            max_tokens=200
+        )
+        
+        answer = response.choices[0].message.content
+            
+        return answer.strip()
+        
+    except Exception as e:
+        return f"Error generating explanation: {e}"
+
+BROKER="your_ip"
 # Load data
 # ============================================================
 # DATA
 # ============================================================
 
-CSV_PATH = r"csv_path" #add the path to your csv file (place it in the same folder as this code)
-
+CSV_PATH = r"csv_path/filename.csv" #add the path to your csv file (place it in the same folder as this code)
+#na valw sto telos toy path kai to noma toy arxeioy
 df = pd.read_csv(CSV_PATH)
 
 if "timestamp" in df.columns:
@@ -38,7 +84,7 @@ print("Dataset shape:", df.shape)
 # MODEL DIRECTORY
 # ============================================================
 
-MODEL_DIR = r"models_path" #add the path where the models are (also place them in the same folder)
+MODEL_DIR = r"path_where_models_are" #add the path where the models are (also place them in the same folder)
 
 
 # ============================================================
@@ -1132,7 +1178,7 @@ def get_dag_outputs(row_index):
 
 
 train_full = pd.read_pickle(
-     r"path_where_ths_code_is/trace_xai_train_full.pkl"
+     r"path_where_this_code_is/trace_xai_train_full.pkl"
 )
 
 
@@ -2122,6 +2168,14 @@ def on_message(client, userdata, msg):
         plt.tight_layout()
         plt.savefig(svg_filename, format="svg", facecolor='white', edgecolor='none')
         plt.close()
+
+        raw_prediction = train_full.iloc[current_index][target_model]
+        print(f"\nI ask for explaination from llm for the model: {target_model}...")
+        llm_answer = generate_llm_answer(target_model, str(raw_prediction), filtered_scores)
+        print(f"LLM answer: {llm_answer}")
+        payload = json.dumps({"explanation": llm_answer})
+        client.publish(f"home/xai/{target_model}/llm_answer", payload, retain=True)
+        print(f"Sent to MQTT topic: home/xai/{target_model}/llm_answer\n")
 
         client.publish(
             f"home/security/xai/{target_model}",
