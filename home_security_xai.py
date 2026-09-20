@@ -21,7 +21,7 @@ warnings.filterwarnings("ignore")
 
 
 # API Key
-GROQ_API_KEY = "your_API_Key" 
+GROQ_API_KEY = "you_API_key" 
 
 llm_client = None
 if GROQ_API_KEY:
@@ -44,15 +44,17 @@ def generate_llm_answer(model_name, prediction, scores_dict):
     Your task is to interpret this outcome and explain it to the homeowner in 1-2 short, natural sentences. 
     - Understand what the output '{prediction}' means in the context of '{model_name}'.
     - Explain *why* this specific outcome happened by naturally referencing the provided features.
-    DO NOT mention any numbers, math, decimals, or weights. Speak simply and contextually.
+    DO NOT mention any numbers, math, decimals, or weights. Speak simply and contextually.Below is an example of how an answer should be:
+    'The system has detected unusual activity - something out of the ordinary is happening in your home.Sensors noticed changes such as a shift
+    in CO2 levels,the door state,light being on, and slight motion or vibration, which together suggest a potential security event.'
     """
     
     try:
         response = llm_client.chat.completions.create(
-            model="groq/compound-mini",
+            model="openai/gpt-oss-20b", #if it doesn't work check if the current model is retired
             messages=[{"role": "user", "content": prompt}],
             temperature=0.3,
-            max_tokens=200
+            
         )
         
         answer = response.choices[0].message.content
@@ -68,8 +70,8 @@ BROKER="your_ip"
 # DATA
 # ============================================================
 
-CSV_PATH = r"csv_path/filename.csv" #add the path to your csv file (place it in the same folder as this code)
-#na valw sto telos toy path kai to noma toy arxeioy
+CSV_PATH = r"path_to_csv_file/filename.csv" #add the path to your csv file (place it in the same folder as this code)
+
 df = pd.read_csv(CSV_PATH)
 
 if "timestamp" in df.columns:
@@ -84,7 +86,7 @@ print("Dataset shape:", df.shape)
 # MODEL DIRECTORY
 # ============================================================
 
-MODEL_DIR = r"path_where_models_are" #add the path where the models are (also place them in the same folder)
+MODEL_DIR = r"path_to_models" #add the path where the models are (also place them in the same folder)
 
 
 # ============================================================
@@ -1178,7 +1180,7 @@ def get_dag_outputs(row_index):
 
 
 train_full = pd.read_pickle(
-     r"path_where_this_code_is/trace_xai_train_full.pkl"
+     r"path_where_this_code_is/trace_xai_train_full.pkl" #since this code generates the .pkl file they both should be in the same folder
 )
 
 

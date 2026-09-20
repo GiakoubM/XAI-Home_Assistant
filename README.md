@@ -77,7 +77,7 @@ Since you are running the project for the first time, you need to generate the L
 
 ## Step 12: LLM Explanations Setup 
 
-This project uses the Groq API (running the `groq/compound-mini` model) to generate natural language explanations for the AI models' decisions. To enable this feature, you need to provide a Groq API Key.
+This project uses the Groq API (running the `openai/gpt-oss-20b` model) to generate natural language explanations for the AI models' decisions. To enable this feature, you need to provide a Groq API Key.
 
 **Note:** If no API key is provided, the script will not crash. 
 
